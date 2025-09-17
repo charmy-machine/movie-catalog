@@ -10,7 +10,7 @@ Right click `movie-catalog` -> Mark directory as -> Sources Root
 
 Go to workdir:
 ```shell
-cd movie-catalog
+cd app
 ```
 
 Run dev server:
