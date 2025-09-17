@@ -1,7 +1,7 @@
 from typing import Annotated
 
 from annotated_types import Len
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 
 
 class MovieBase(BaseModel):
@@ -11,12 +11,6 @@ class MovieBase(BaseModel):
     slug: str
 
 
-class Movie(MovieBase):
-    """Movie model"""
-
-    pass
-
-
 class MovieCreate(MovieBase):
     """Create movie model"""
 
@@ -24,3 +18,7 @@ class MovieCreate(MovieBase):
     description: Annotated[str, Len(3, 255)]
     rating_mpaa: Annotated[str, Len(1, 5)]
     slug: Annotated[str, Len(3, 10)]
+
+
+class Movie(MovieBase):
+    """Movie model"""

@@ -1,16 +1,39 @@
-from schemas.movie import Movie
+from pydantic import BaseModel
 
-MOVIES_LIST = [
-    Movie(
+from schemas.movie import Movie, MovieCreate
+
+
+class MovieStorage(BaseModel):
+    slug_to_movie: dict[str, Movie] = {}
+
+    def get(self) -> list[Movie]:
+        return list(self.slug_to_movie.values())
+
+    def get_by_slug(self, slug: str) -> Movie:
+        return self.slug_to_movie.get(slug)
+
+    def create(self, movie_create: MovieCreate) -> Movie:
+        movie = Movie(**movie_create.model_dump())
+        self.slug_to_movie[movie.slug] = movie
+        return movie
+
+
+storage = MovieStorage()
+
+storage.create(
+    MovieCreate(
         movie_title="The Gentlemen",
         description="""Gangsters of all stripes share a drug farm. Guy Ritchie's swirling action comedy starring Matthew McConaughey and Hugh Grant""",
         rating_mpaa="R",
         slug="1abc",
-    ),
-    Movie(
+    )
+)
+
+storage.create(
+    MovieCreate(
         movie_title="Interstellar",
         description="""Humanity's next step will be the greatest""",
         rating_mpaa="PG-13",
         slug="2abc",
     ),
-]
+)

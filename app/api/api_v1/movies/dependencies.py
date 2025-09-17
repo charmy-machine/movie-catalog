@@ -1,15 +1,12 @@
 from fastapi import HTTPException
 from starlette import status
 
-from .crud import MOVIES_LIST
+from .crud import storage
 from schemas.movie import Movie
 
 
 def prefetch_movie(slug: str) -> Movie | None:
-    movie = next(
-        (item for item in MOVIES_LIST if item.slug == slug),
-        None,
-    )
+    movie = storage.get_by_slug(slug)
 
     if movie:
         return movie
