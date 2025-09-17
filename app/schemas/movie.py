@@ -2,7 +2,6 @@ from pydantic import BaseModel, Field
 
 
 class MovieBase(BaseModel):
-    movie_id: int
     movie_title: str = Field(..., min_length=3, max_length=100)
     description: str = Field(..., min_length=3, max_length=255)
     rating_mpaa: str = Field(..., min_length=1, max_length=5)
@@ -10,5 +9,4 @@ class MovieBase(BaseModel):
 
 class Movie(MovieBase):
     """Movie model"""
-
-    pass
+    movie_id: int
