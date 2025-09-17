@@ -40,7 +40,14 @@ class MoviePartialUpdate(MovieBase):
     rating_mpaa: RatingString | None = None
 
 
+class MovieRead(MovieBase):
+    """Read movie details model"""
+
+    slug: str
+
+
 class Movie(MovieBase):
     """Movie model"""
 
     slug: str
+    notes: str = "some notes"
