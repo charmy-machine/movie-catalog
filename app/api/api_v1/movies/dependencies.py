@@ -5,9 +5,9 @@ from .crud import MOVIES_LIST
 from schemas.movie import Movie
 
 
-def prefetch_movie(movie_id: int) -> Movie | None:
+def prefetch_movie(slug: str) -> Movie | None:
     movie = next(
-        (movie for movie in MOVIES_LIST if movie.movie_id == movie_id),
+        (item for item in MOVIES_LIST if item.slug == slug),
         None,
     )
 
@@ -16,5 +16,5 @@ def prefetch_movie(movie_id: int) -> Movie | None:
 
     raise HTTPException(
         status_code=status.HTTP_404_NOT_FOUND,
-        detail=f"Movie with id {movie_id} not found",
+        detail=f"Movie with slug '{slug}' not found",
     )

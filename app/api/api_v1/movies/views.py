@@ -18,7 +18,7 @@ def read_movies_list():
     return MOVIES_LIST
 
 
-@router.get("/{movie_id}", response_model=Movie)
+@router.get("/{slug}", response_model=Movie)
 def read_movie_details(
     movie: Annotated[Movie, Depends(prefetch_movie)],
 ) -> Movie | None:
@@ -32,6 +32,5 @@ def read_movie_details(
 )
 def create_movie(movie_create: MovieCreate) -> Movie:
     return Movie(
-        movie_id=randint(1, 9999),
         **movie_create.model_dump(),
     )
