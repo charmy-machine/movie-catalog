@@ -1,10 +1,10 @@
 from typing import Annotated
 
-from fastapi import Depends, APIRouter, status, Form
+from fastapi import Depends, APIRouter, status
 
 from .crud import MOVIES_LIST
 from .dependencies import prefetch_movie
-from schemas.movie import Movie
+from schemas.movie import Movie, MovieCreate
 from random import randint
 
 router = APIRouter(
@@ -30,9 +30,8 @@ def read_movie_details(
     response_model=Movie,
     status_code=status.HTTP_201_CREATED,
 )
-def create_movie(
-    movie_data: Annotated[Movie, Form()],
-):
-    movie = movie_data.model_dump()
-    movie.update({"movie_id": randint(1, 1000)})
-    return movie
+def create_movie(movie_create: MovieCreate) -> Movie:
+    return Movie(
+        movie_id=randint(1, 9999),
+        **movie_create.model_dump(),
+    )
