@@ -4,21 +4,43 @@ from annotated_types import Len
 from pydantic import BaseModel
 
 
+TitleString = Annotated[str, Len(3, 100)]
+DescriptionString = Annotated[str, Len(3, 255)]
+RatingString = Annotated[str, Len(1, 5)]
+
+
 class MovieBase(BaseModel):
     movie_title: str
     description: str
     rating_mpaa: str
-    slug: str
 
 
 class MovieCreate(MovieBase):
     """Create movie model"""
 
-    movie_title: Annotated[str, Len(3, 100)]
-    description: Annotated[str, Len(3, 255)]
-    rating_mpaa: Annotated[str, Len(1, 5)]
+    movie_title: TitleString
+    description: DescriptionString
+    rating_mpaa: RatingString
     slug: Annotated[str, Len(3, 10)]
+
+
+class MovieUpdate(MovieBase):
+    """Update movie model"""
+
+    movie_title: TitleString
+    description: DescriptionString
+    rating_mpaa: RatingString
+
+
+class MoviePartialUpdate(MovieBase):
+    """Partial update movie model"""
+
+    movie_title: TitleString | None = None
+    description: DescriptionString | None = None
+    rating_mpaa: RatingString | None = None
 
 
 class Movie(MovieBase):
     """Movie model"""
+
+    slug: str
