@@ -4,7 +4,7 @@ from fastapi import Depends, status, APIRouter
 
 from api.api_v1.movies.crud import storage
 from api.api_v1.movies.dependencies import prefetch_movie
-from schemas.movie import Movie, MovieUpdate, MoviePartialUpdate
+from schemas.movie import Movie, MovieUpdate, MoviePartialUpdate, MovieRead
 
 router = APIRouter(
     prefix="/{slug}",
@@ -25,11 +25,23 @@ router = APIRouter(
 MovieBySlug = Annotated[Movie, Depends(prefetch_movie)]
 
 
-@router.get("/", response_model=Movie)
+@router.get("/", response_model=MovieRead)
 def read_movie_details(
     movie: Annotated[Movie, Depends(prefetch_movie)],
 ) -> Movie | None:
     return movie
+
+
+@router.put("/", response_model=MovieRead)
+def update_movie_details(movie: MovieBySlug, movie_in: MovieUpdate) -> Movie:
+    return storage.update(movie=movie, movie_in=movie_in)
+
+
+@router.patch("/", response_model=MovieRead)
+def update_movie_details_partial(
+    movie: MovieBySlug, movie_in: MoviePartialUpdate
+) -> Movie:
+    return storage.update_partial(movie=movie, movie_in=movie_in)
 
 
 @router.delete(
@@ -38,15 +50,3 @@ def read_movie_details(
 )
 def delete_movie(movie: MovieBySlug) -> None:
     storage.delete(movie=movie)
-
-
-@router.put("/", response_model=Movie)
-def update_movie_details(movie: MovieBySlug, movie_in: MovieUpdate) -> Movie:
-    return storage.update(movie=movie, movie_in=movie_in)
-
-
-@router.patch("/", response_model=Movie)
-def update_movie_details_partial(
-    movie: MovieBySlug, movie_in: MoviePartialUpdate
-) -> Movie:
-    return storage.update_partial(movie=movie, movie_in=movie_in)
