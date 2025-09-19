@@ -31,7 +31,6 @@ class MovieStorage(BaseModel):
             return
 
         self.slug_to_movie.update(data.slug_to_movie)
-        logger.warning("Recovered data from storage file.")
 
     def get(self) -> list[Movie]:
         return list(self.slug_to_movie.values())
@@ -42,12 +41,10 @@ class MovieStorage(BaseModel):
     def create(self, movie_in: MovieCreate) -> Movie:
         movie = Movie(**movie_in.model_dump())
         self.slug_to_movie[movie.slug] = movie
-        self.save_state()
         return movie
 
     def delete_by_slug(self, slug: str) -> None:
         self.slug_to_movie.pop(slug, None)
-        self.save_state()
 
     def delete(self, movie: Movie) -> None:
         self.delete_by_slug(slug=movie.slug)
@@ -55,13 +52,11 @@ class MovieStorage(BaseModel):
     def update(self, movie: Movie, movie_in: MovieUpdate) -> Movie:
         for field_name, value in movie_in:
             setattr(movie, field_name, value)
-        self.save_state()
         return movie
 
     def update_partial(self, movie: Movie, movie_in: MoviePartialUpdate):
         for field_name, value in movie_in.model_dump(exclude_unset=True).items():
             setattr(movie, field_name, value)
-        self.save_state()
         return movie
 
 
