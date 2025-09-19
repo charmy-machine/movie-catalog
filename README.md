@@ -17,3 +17,9 @@ Run dev server:
 ```shell
 fastapi dev
 ```
+
+## Snippets
+Generate random token for unsafe methods
+```shell
+python -c "import secrets; print(secrets.token_urlsafe(16))"
+```
