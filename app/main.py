@@ -2,6 +2,7 @@ import logging
 
 from fastapi import FastAPI, Request
 from api import router as api_router
+from app_lifespan import lifespan
 
 from core import config
 
@@ -10,7 +11,10 @@ logging.basicConfig(
     format=config.LOGGER_FORMAT,
 )
 
-app = FastAPI(title="Movie Catalog")
+app = FastAPI(
+    title="Movie Catalog",
+    lifespan=lifespan,
+)
 
 app.include_router(api_router)
 
