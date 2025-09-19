@@ -41,6 +41,7 @@ class MovieStorage(BaseModel):
     def create(self, movie_in: MovieCreate) -> Movie:
         movie = Movie(**movie_in.model_dump())
         self.slug_to_movie[movie.slug] = movie
+        logger.info("Created movie %s.", movie)
         return movie
 
     def delete_by_slug(self, slug: str) -> None:
