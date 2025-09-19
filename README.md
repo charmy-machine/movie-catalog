@@ -4,7 +4,7 @@
 
 ### Setup:
 
-Right click `movie-catalog` -> Mark directory as -> Sources Root
+Right click on `app` -> Mark directory as -> Sources Root
 
 ### Run
 
