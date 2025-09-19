@@ -1,11 +1,13 @@
 import logging
 
-from fastapi import HTTPException, status, BackgroundTasks
+from fastapi import HTTPException, status, BackgroundTasks, Request
 
 from .crud import storage
 from schemas.movie import Movie
 
 logger = logging.getLogger(__name__)
+
+UNSAFE_METHODS = frozenset({"POST", "PUT", "PATCH", "DELETE"})
 
 
 def prefetch_movie(slug: str) -> Movie | None:
@@ -20,9 +22,13 @@ def prefetch_movie(slug: str) -> Movie | None:
     )
 
 
-def save_storage_state(background_tasks: BackgroundTasks):
+def save_storage_state(
+    request: Request,
+    background_tasks: BackgroundTasks,
+):
     # Code BEFORE enter inside the view function
     yield
     # Code AFTER exiting the view function
-    logger.info("Add background task to save storage.")
-    background_tasks.add_task(storage.save_state)
+    if request.method in UNSAFE_METHODS:
+        logger.info("Add background task to save storage.")
+        background_tasks.add_task(storage.save_state)
