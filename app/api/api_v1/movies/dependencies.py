@@ -16,7 +16,7 @@ from fastapi.security import (
 )
 
 from .views.redis import redis_tokens
-from core.config import USERS_DB, REDIS_TOKENS_SET_NAME
+from core.config import USERS_DB
 from .crud import storage
 from schemas.movie import Movie
 
@@ -90,7 +90,7 @@ def user_basic_auth_required_for_unsafe_methods(
 
 
 def valid_api_token(api_token: HTTPAuthorizationCredentials) -> None:
-    if redis_tokens.sismember(REDIS_TOKENS_SET_NAME, api_token.credentials):
+    if redis_tokens.token_exists(api_token.credentials):
         return
 
     raise HTTPException(
