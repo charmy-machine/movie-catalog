@@ -25,3 +25,10 @@ USERS_DB: dict[str, str] = {
     "sam": "password",
     "bob": "qwerty",
 }
+
+REDIS_HOST: str = "localhost"
+REDIS_PORT: int = 6379
+REDIS_DB: int = 0
+REDIS_DB_TOKENS: int = 2
+
+REDIS_TOKENS_SET_NAME = "tokens"
