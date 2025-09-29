@@ -15,8 +15,7 @@ from fastapi.security import (
     HTTPBasicCredentials,
 )
 
-from .views.redis import redis_tokens
-from core.config import USERS_DB
+from api.api_v1.auth.services import redis_tokens, redis_users
 from .crud import storage
 from schemas.movie import Movie
 
@@ -62,10 +61,9 @@ def save_storage_state(
 
 
 def valid_basic_auth(credentials: HTTPBasicCredentials) -> None:
-    if (
-        credentials
-        and credentials.username in USERS_DB
-        and USERS_DB[credentials.username] == credentials.password
+    if credentials and redis_users.validate_user_password(
+        credentials.username,
+        credentials.password,
     ):
         return
 
