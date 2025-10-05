@@ -10,11 +10,11 @@ router = APIRouter(
     prefix="/{slug}",
     responses={
         status.HTTP_404_NOT_FOUND: {
-            "description": "Movie not found.",
+            "description": "Movie not found",
             "content": {
                 "application/json": {
                     "example": {
-                        "detail": f"Movie with slug 'slug' not found.",
+                        "detail": f"Movie with slug 'slug' not found",
                     },
                 },
             },
