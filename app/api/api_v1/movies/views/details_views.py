@@ -38,7 +38,7 @@ def update_movie_details(
     movie_in: MovieUpdate,
     background_tasks: BackgroundTasks,
 ) -> Movie:
-    background_tasks.add_task(storage.save_state)
+    background_tasks.add_task(storage.save_movie)
     return storage.update(movie=movie, movie_in=movie_in)
 
 
@@ -48,7 +48,7 @@ def update_movie_details_partial(
     movie_in: MoviePartialUpdate,
     background_tasks: BackgroundTasks,
 ) -> Movie:
-    background_tasks.add_task(storage.save_state)
+    background_tasks.add_task(storage.save_movie)
     return storage.update_partial(movie=movie, movie_in=movie_in)
 
 
@@ -60,5 +60,5 @@ def delete_movie(
     movie: MovieBySlug,
     background_tasks: BackgroundTasks,
 ) -> None:
-    background_tasks.add_task(storage.save_state)
+    background_tasks.add_task(storage.save_movie)
     storage.delete(movie=movie)

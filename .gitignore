@@ -206,5 +206,3 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
-
-movies.json

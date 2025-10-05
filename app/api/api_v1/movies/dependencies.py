@@ -4,7 +4,6 @@ from typing import Annotated
 from fastapi import (
     HTTPException,
     status,
-    BackgroundTasks,
     Request,
     Depends,
 )
@@ -46,18 +45,6 @@ def prefetch_movie(slug: str) -> Movie | None:
         status_code=status.HTTP_404_NOT_FOUND,
         detail=f"Movie with slug '{slug}' not found.",
     )
-
-
-def save_storage_state(
-    request: Request,
-    background_tasks: BackgroundTasks,
-):
-    # Code BEFORE enter inside the view function
-    yield
-    # Code AFTER exiting the view function
-    if request.method in UNSAFE_METHODS:
-        logger.info("Add background task to save storage.")
-        background_tasks.add_task(storage.save_state)
 
 
 def valid_basic_auth(credentials: HTTPBasicCredentials) -> None:
