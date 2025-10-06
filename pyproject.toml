@@ -5,6 +5,7 @@ description = "movie-catalog"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
-    "fastapi[standard]>=0.116.1",
+    "fastapi[standard]==0.118.0",
     "redis[hiredis]>=6.4.0",
+    "typer==0.19.2",
 ]
