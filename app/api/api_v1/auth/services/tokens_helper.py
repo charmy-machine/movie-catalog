@@ -19,6 +19,13 @@ class AbstractTokensHelper(ABC):
         :return:
         """
 
+    @abstractmethod
+    def get_tokens(self) -> list[str]:
+        """
+        Get all tokens.
+        :return:
+        """
+
     @classmethod
     def generate_token(cls) -> str:
         """

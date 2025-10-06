@@ -27,6 +27,9 @@ class RedisTokensHelper(AbstractTokensHelper):
     def save_token(self, token: str) -> None:
         self.redis.sadd(self.tokens_set_name, token)
 
+    def get_tokens(self) -> list[str]:
+        return list(self.redis.smembers(self.tokens_set_name))
+
 
 redis_tokens = RedisTokensHelper(
     host=config.REDIS_HOST,

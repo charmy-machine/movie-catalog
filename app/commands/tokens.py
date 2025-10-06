@@ -2,6 +2,8 @@ from typing import Annotated
 
 import typer
 from rich import print
+from rich.markdown import Markdown
+
 from api.api_v1.auth.services import redis_tokens
 
 
@@ -19,7 +21,7 @@ def check(
         str,
         typer.Argument(help="The token to check"),
     ],
-):
+) -> None:
     """Check if the passed token exists or not."""
     print(
         f"Token [bold]{token}[/bold]",
@@ -29,3 +31,11 @@ def check(
             else "[red]does not exist[/red]."
         ),
     )
+
+
+@app.command(name="list")
+def list_tokens() -> None:
+    """List all tokens."""
+    print(Markdown("# Available API Tokens"))
+    print(Markdown("\n- ".join([""] + redis_tokens.get_tokens())))
+    print()
