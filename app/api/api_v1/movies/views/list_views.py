@@ -58,4 +58,4 @@ def create_movie(
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT,
             detail=f"Movie with slug={movie_create.slug!r} already exists",
-        )
+        ) from None
