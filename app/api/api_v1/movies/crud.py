@@ -1,4 +1,5 @@
 import logging
+from typing import cast, Iterable
 
 from pydantic import BaseModel
 from redis import Redis
@@ -32,11 +33,15 @@ class MovieStorage(BaseModel):
     def get(self) -> list[Movie]:
         return [
             Movie.model_validate_json(value)
-            for value in redis.hvals(name=REDIS_MOVIES_HASH_NAME)
+            for value in cast(
+                Iterable[str],
+                redis.hvals(name=REDIS_MOVIES_HASH_NAME),
+            )
         ]
 
     def get_by_slug(self, slug: str) -> Movie | None:
         if data := redis.hget(name=REDIS_MOVIES_HASH_NAME, key=slug):
+            assert isinstance(data, str)
             return Movie.model_validate_json(data)
         return None
 
@@ -54,9 +59,12 @@ class MovieStorage(BaseModel):
         return movie
 
     def exists(self, slug: str) -> bool:
-        return redis.hexists(
-            name=REDIS_MOVIES_HASH_NAME,
-            key=slug,
+        return cast(
+            bool,
+            redis.hexists(
+                name=REDIS_MOVIES_HASH_NAME,
+                key=slug,
+            ),
         )
 
     def create_or_raise_if_exists(self, movie_in: MovieCreate) -> Movie:
@@ -70,7 +78,7 @@ class MovieStorage(BaseModel):
         self.save_movie(movie)
         return movie
 
-    def update_partial(self, movie: Movie, movie_in: MoviePartialUpdate):
+    def update_partial(self, movie: Movie, movie_in: MoviePartialUpdate) -> Movie:
         for field_name, value in movie_in.model_dump(exclude_unset=True).items():
             setattr(movie, field_name, value)
         self.save_movie(movie)

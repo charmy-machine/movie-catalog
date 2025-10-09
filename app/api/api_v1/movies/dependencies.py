@@ -47,7 +47,7 @@ def prefetch_movie(slug: str) -> Movie | None:
     )
 
 
-def valid_basic_auth(credentials: HTTPBasicCredentials) -> None:
+def valid_basic_auth(credentials: HTTPBasicCredentials | None) -> None:
     if credentials and redis_users.validate_user_password(
         credentials.username,
         credentials.password,
@@ -67,7 +67,7 @@ def user_basic_auth_required_for_unsafe_methods(
         HTTPBasicCredentials | None,
         Depends(user_basic_auth),
     ],
-):
+) -> None:
     if request.method not in UNSAFE_METHODS:
         return
 
@@ -90,7 +90,7 @@ def api_token_required_for_unsafe_methods(
         HTTPAuthorizationCredentials | None,
         Depends(static_api_token),
     ],
-):
+) -> None:
     if request.method not in UNSAFE_METHODS:
         return
 
@@ -113,7 +113,7 @@ def api_token_or_user_basic_auth_required_for_unsafe_methods(
         HTTPAuthorizationCredentials | None,
         Depends(static_api_token),
     ] = None,
-):
+) -> None:
     if request.method not in UNSAFE_METHODS:
         return None
 

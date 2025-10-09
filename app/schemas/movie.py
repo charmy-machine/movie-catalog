@@ -32,7 +32,7 @@ class MovieUpdate(MovieBase):
     rating_mpaa: RatingString
 
 
-class MoviePartialUpdate(MovieBase):
+class MoviePartialUpdate(BaseModel):
     """Partial update movie model"""
 
     movie_title: TitleString | None = None

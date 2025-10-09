@@ -1,3 +1,3 @@
-_all_ = ("app",)
+__all__ = ("app",)
 
 from .cli import app
