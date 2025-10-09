@@ -3,7 +3,6 @@ from typing import Annotated
 from annotated_types import Len
 from pydantic import BaseModel
 
-
 TitleString = Annotated[str, Len(3, 100)]
 DescriptionString = Annotated[str, Len(3, 255)]
 RatingString = Annotated[str, Len(1, 5)]

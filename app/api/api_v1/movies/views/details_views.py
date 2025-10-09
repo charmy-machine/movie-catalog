@@ -1,10 +1,10 @@
 from typing import Annotated
 
-from fastapi import Depends, status, APIRouter
+from fastapi import APIRouter, Depends, status
 
 from api.api_v1.movies.crud import storage
 from api.api_v1.movies.dependencies import prefetch_movie
-from schemas.movie import Movie, MovieUpdate, MoviePartialUpdate, MovieRead
+from schemas.movie import Movie, MoviePartialUpdate, MovieRead, MovieUpdate
 
 router = APIRouter(
     prefix="/{slug}",
@@ -14,7 +14,7 @@ router = APIRouter(
             "content": {
                 "application/json": {
                     "example": {
-                        "detail": f"Movie with slug 'slug' not found",
+                        "detail": "Movie with slug 'slug' not found",
                     },
                 },
             },
