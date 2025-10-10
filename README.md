@@ -1,10 +1,24 @@
-# Movie Catalog
+# FastAPI URL Shortener
 
 ## Develop
 
 ### Setup:
 
-Right click on `app` -> Mark directory as -> Sources Root
+Right click `app` -> Mark directory as -> Sources Root
+
+### Configure pre-commit
+
+Install pre-commit hook:
+```shell
+pre-commit install
+```
+
+### Install
+
+Install packages:
+```shell
+uv install
+```
 
 ### Run
 
