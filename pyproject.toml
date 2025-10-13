@@ -139,3 +139,6 @@ unfixable = []
 "stuff.py" = [
     "T20"  # flake8-print (T20)
 ]
+"app/testing/*.py" = [
+    "S311"  # flake8 pseudo-random generator (S311)
+]
