@@ -1,4 +1,5 @@
 import logging
+from os import getenv
 
 LOGGER_LEVEL = logging.INFO
 LOGGER_FORMAT: str = (
@@ -6,7 +7,7 @@ LOGGER_FORMAT: str = (
 )
 
 REDIS_HOST: str = "localhost"
-REDIS_PORT: int = 6379
+REDIS_PORT: int = int(getenv("REDIS_PORT", "6379"))
 REDIS_DB: int = 0
 REDIS_DB_TOKENS: int = 2
 REDIS_DB_USERS: int = 4
