@@ -19,7 +19,7 @@ class AbstractTokensHelper(ABC):
         """
         return secrets.token_urlsafe(16)
 
-    def generate_token_and_save(self) -> str:
+    def generate_and_save_token(self) -> str:
         """
         Generate token and save it in storage.
         :return:

@@ -35,7 +35,7 @@ def check(
 @app.command()
 def create() -> None:
     """Create token."""
-    token = tokens.generate_token_and_save()
+    token = tokens.generate_and_save_token()
     print(f"New token [bold]{token}[/bold] was generated and saved into storage.")
 
 
