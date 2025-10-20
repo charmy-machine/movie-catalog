@@ -19,6 +19,7 @@ redis = Redis(
     host=REDIS_HOST,
     port=REDIS_PORT,
     db=REDIS_DB_MOVIES,
+    decode_responses=True,
 )
 
 
