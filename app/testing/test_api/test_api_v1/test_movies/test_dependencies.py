@@ -1,11 +1,15 @@
 from api.api_v1.movies.dependencies import UNSAFE_METHODS
 
-SAFE_METHODS = {
-    "GET",
-    "HEAD",
-    "OPTIONS",
-}
 
+class TestUnsafeMethods:
+    def test_unsafe_methods_doesnt_contain_safe_methods(self) -> None:
+        safe_methods = {
+            "GET",
+            "HEAD",
+            "OPTIONS",
+        }
 
-def test_unsafe_methods_doesnt_contain_safe_methods() -> None:
-    assert not UNSAFE_METHODS & SAFE_METHODS
+        assert not UNSAFE_METHODS & safe_methods
+
+    def test_all_methods_are_upper(self) -> None:
+        assert all(method.isupper() for method in UNSAFE_METHODS)
