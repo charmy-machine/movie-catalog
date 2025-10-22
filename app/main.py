@@ -1,8 +1,9 @@
 import logging
 
-from fastapi import FastAPI, Request
+from fastapi import FastAPI
 
 from api import router as api_router
+from api.main_views import router as main_router
 from app_lifespan import lifespan
 from core import config
 
@@ -16,10 +17,5 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
+app.include_router(main_router)
 app.include_router(api_router)
-
-
-@app.get("/")
-def read_root(request: Request) -> dict[str, str]:
-    docs_url = request.url.replace(path="/docs")
-    return {"docs": str(docs_url)}
