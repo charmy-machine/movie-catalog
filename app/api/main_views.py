@@ -4,6 +4,9 @@ router = APIRouter()
 
 
 @router.get("/")
-def read_root(request: Request) -> dict[str, str]:
+def read_root(request: Request, name: str = "Anonymous") -> dict[str, str]:
     docs_url = request.url.replace(path="/docs")
-    return {"docs": str(docs_url)}
+    return {
+        "message": f"Hello, {name}!",
+        "docs": str(docs_url),
+    }
