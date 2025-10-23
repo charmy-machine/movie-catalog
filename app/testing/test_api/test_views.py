@@ -2,12 +2,8 @@ import pytest
 from fastapi import status
 from fastapi.testclient import TestClient
 
-from main import app
 
-client = TestClient(app)
-
-
-def test_root_view() -> None:
+def test_root_view(client: TestClient) -> None:
     response = client.get("/")
     response_data = response.json()
 
@@ -27,7 +23,7 @@ def test_root_view() -> None:
         "!@#$%",
     ],
 )
-def test_root_view_custom_name(name: str) -> None:
+def test_root_view_custom_name(name: str, client: TestClient) -> None:
     params = {"name": name}
     response = client.get("/", params=params)
     response_data = response.json()
